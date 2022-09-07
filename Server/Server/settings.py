@@ -95,7 +95,6 @@ DATABASES = {
     },
 }
 
-environ.Env.read_env()
 
 import sys
 if 'test' in sys.argv:
