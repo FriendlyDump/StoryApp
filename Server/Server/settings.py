@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from email.policy import default
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,20 +76,26 @@ WSGI_APPLICATION = 'Server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+import environ
+
+env = environ.Env()
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'blog',
-        'USER': 'api_user',
-        'PASSWORD': 'pass',
-        'HOST': 'localhost',
+        'NAME': env('DB_NAME', default='blog'),
+        'USER': env('DB_USER', default='api_user'),
+        'PASSWORD': env('DB_PASSWORD', default='pass'),
+        'HOST': env('DB_HOST', default='localhost'),
         'PORT': '',
     },
     'test': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'test.sqlite'
+        'NAME': 'test.sqlite',
     },
 }
+
+environ.Env.read_env()
 
 import sys
 if 'test' in sys.argv:
