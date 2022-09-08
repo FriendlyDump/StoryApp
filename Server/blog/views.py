@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from blog.models import Post
-from blog.serializers import *
+from blog.serializers import PostSerializer
 
 
 class PostView(APIView):
@@ -34,56 +34,51 @@ class PostView(APIView):
                 "massage": "User not authorized."
                 })
 
-
-class PostDetailView(APIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-    def get(self, request, pk):
-        if request.user.is_authenticated:
-            post = Post.objects.filter(pk=pk)
-            return Response({
-                "posts": PostSerializer(post, many=True).data
-                })
-        else:
-            return Response({
-                "massage": "User not authorized."
-                })
-    
     def put(self, request, pk):
-        post = Post.objects.get(pk=pk)
-        serializer = PostSerializer(post, data=request.data)
-        if request.user.is_authenticated:
-            if post.author == request.user:
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(serializer.data)
+        if pk:
+            post = Post.objects.get(pk=pk)
+            serializer = PostSerializer(post, data=request.data)
+            if request.user.is_authenticated:
+                if post.author == request.user:
+                    if serializer.is_valid():
+                        serializer.save()
+                        return Response(serializer.data)
+                    else:
+                        return Response({
+                        "massage": "Error data or bad request."
+                        })
                 else:
                     return Response({
-                    "massage": "Error data or bad request."
-                    })
+                        "massage": "This is post can't be delete, you are not the author."
+                        })
             else:
                 return Response({
-                    "massage": "This is post can't be delete, you are not the author."
+                    "massage": "User not authorized."
                     })
         else:
             return Response({
-                "massage": "User not authorized."
-                })
+                    "massage": "Choose pk"
+                    })
 
     def delete(self, request, pk):
-        post = Post.objects.get(pk=pk)
-        if request.user.is_authenticated:
-            if post.author == request.user:
-                post.delete()
-                return Response({
-                    "massage": "You have successfully deleted a post."
-                    })
+        if pk:
+            post = Post.objects.get(pk=pk)
+            if request.user.is_authenticated:
+                if post.author == request.user:
+                    post.delete()
+                    return Response({
+                        "massage": "Done. Deleted successfully"
+                        })
+                else:
+                    return Response({
+                        "massage": "This is post can't be delete, you are not the author."
+                        })
             else:
                 return Response({
-                    "massage": "This is post can't be delete, you are not the author."
+                    "massage": "User not authorized."
                     })
         else:
             return Response({
-                "massage": "User not authorized."
-                })
+                    "massage": "Choose id"
+                    })
+   
