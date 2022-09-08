@@ -14,9 +14,6 @@ class PostAdmin(admin.ModelAdmin):
         model = Post
 
 
-admin.site.register(Post, PostAdmin)
-
-
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'avatar', 'city')
 
@@ -24,4 +21,5 @@ class ProfileAdmin(admin.ModelAdmin):
         model = Profile
 
 
+admin.site.register(Post, PostAdmin)
 admin.site.register(Profile, ProfileAdmin)
