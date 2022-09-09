@@ -1,8 +1,14 @@
-from django.urls import re_path
+from django.urls import path, include
+
 from blog.views import *
+from rest_framework import routers
+
+
+router = routers.SimpleRouter()
+router.register(r'postlist', PostViewSet)
+router.register(r'profile', ProfileViewSet)
 
 urlpatterns = [
-    re_path(r'^api/v1/postlist/$', PostApiView.as_view(), name='home'),
-    re_path(r'^api/v1/postlist/(?P<pk>[0-9]+)$', PostApiView.as_view()),
+    path('api/v1/', include(router.urls)),
 ]
 

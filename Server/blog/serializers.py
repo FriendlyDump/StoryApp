@@ -5,14 +5,15 @@ from blog.models import Post, Profile
 
 class PostSerializer(ModelSerializer):
     author = ReadOnlyField(source='author.username')
+
+    def create(self, validated_data):
+        validated_data['author'] = self.context['request'].user
+        return super(PostSerializer, self).create(validated_data)
+
     class Meta:
         model = Post
         fields = "__all__"
 
-class UserSerializer(ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ['username']
 
 class ProfileSerializer(ModelSerializer):
     class Meta:
