@@ -12,9 +12,11 @@ class PostViewSet(ModelViewSet):
         if self.request.user.is_authenticated:
             user = self.request.user
             return Post.objects.filter(author=user)
+        else: 
+            return Post.objects.all()
 
 
-class ProfileViewSet(PostViewSet, ModelViewSet):
+class ProfileViewSet(ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
