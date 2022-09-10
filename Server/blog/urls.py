@@ -4,7 +4,7 @@ from blog.views import *
 from rest_framework import routers
 
 
-router = routers.SimpleRouter()
+router = routers.DefaultRouter()
 router.register(r'postlist', PostViewSet)
 router.register(r'profile', ProfileViewSet)
 
