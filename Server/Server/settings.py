@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-_l4q_0b=dt$30*c%2pe%*sgy6dh+vizxa%eka)t7si=5$zstc8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['limitless-taiga-14217.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -99,6 +99,7 @@ DATABASES = {
 
 
 import sys
+
 if 'test' in sys.argv:
     DATABASES['default'] = DATABASES['test']
 
@@ -137,7 +138,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+import os
+
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
