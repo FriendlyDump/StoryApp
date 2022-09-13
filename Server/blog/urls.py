@@ -11,6 +11,7 @@ router.register(r'profile', ProfileViewSet)
 urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/auth/', include('djoser.urls')),
-    re_path(r'^api/v1/auth/', include('djoser.urls.authtoken'))
+    re_path(r'^api/v1/user/(?P<author_id>[0-9]+)/$', ProfileApiView.as_view()),
+    re_path(r'^api/v1/auth/', include('djoser.urls.authtoken')),
 ]
 
