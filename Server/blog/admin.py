@@ -15,7 +15,7 @@ class PostAdmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'avatar', 'city')
+    list_display = ('user', 'avatar', 'bio')
 
     class Meta:
         model = Profile
